@@ -5,6 +5,7 @@ version = "0.1.0"
 authors = ["Peter Nehrer <pnehrer@eclipticalsoftware.com>"]
 edition = "2018"
 license = "MIT"
+repository = "https://github.com/pnehrer/pn-sign"
 
 [dependencies]
 anyhow = "1.0"
