@@ -5,6 +5,7 @@ use headers::{
 };
 
 use pn_sign::{
+    built_info,
     sign_request_v1,
     sign_request_v2,
 };
@@ -16,9 +17,8 @@ const PARAM_TIMESTAMP: &str = "timestamp";
 
 #[derive(Debug, StructOpt)]
 #[structopt(
-    name = "sign",
-    about = "Sign PubNub API request with secret key.",
-    rename_all = "kebab"
+    rename_all = "kebab",
+    version = Box::leak(version().into_boxed_str()) as &str,
 )]
 struct Opt {
     /// Subscribe key
@@ -44,6 +44,18 @@ struct Opt {
     curl: bool,
     /// Request URL
     url: Url,
+}
+
+fn version() -> String {
+    format!(
+        "{} ({}, {} build, {} [{}], {})",
+        env!("CARGO_PKG_VERSION"),
+        built_info::GIT_VERSION.unwrap_or("unknown"),
+        built_info::PROFILE,
+        built_info::CFG_OS,
+        built_info::CFG_TARGET_ARCH,
+        built_info::BUILT_TIME_UTC,
+    )
 }
 
 fn main() -> anyhow::Result<()> {

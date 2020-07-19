@@ -1,3 +1,4 @@
+//! PubNub signature v2
 use base64::{
     encode_config,
     URL_SAFE_NO_PAD,
@@ -11,6 +12,8 @@ use crate::common::{
     CryptoError,
 };
 
+/// Computes the signature for a request with the given HTTP method, path, query string parameters,
+/// and request body using the supplied publish and secret keys.
 pub fn sign_request(
     method: impl AsRef<str>,
     pub_key: impl AsRef<str>,

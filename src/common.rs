@@ -1,3 +1,4 @@
+//! Common types and functions
 use hmac::{
     Hmac,
     Mac,
@@ -21,9 +22,11 @@ const SIG_CHARS: &AsciiSet = &NON_ALPHANUMERIC
     .remove(b'_')
     .remove(b'.');
 
+/// Error encountered while computing the signature
 #[derive(Debug, Error)]
 #[non_exhaustive]
 pub enum CryptoError {
+    /// The secret key is invalid
     #[error("invalid secret key")]
     SecretKey,
 }
