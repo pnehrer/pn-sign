@@ -10,6 +10,7 @@ use pn_sign::{
     sign_request_v2,
 };
 
+use shell_escape::escape;
 use structopt::StructOpt;
 use url::Url;
 
@@ -90,14 +91,14 @@ fn main() -> anyhow::Result<()> {
 
     if opt.curl {
         url.query_pairs_mut().append_pair("signature", &sig);
-        let mut curl = format!(r#"'{}'"#, url);
+        let mut curl = escape(url.to_string().into()).to_string();
         if !opt.body.is_empty() {
             curl = format!(
-                "{} -H '{}: {}' -d '{}'",
+                "{} -H '{}: {}' -d {}",
                 curl,
                 ContentType::name(),
                 ContentType::json(),
-                opt.body
+                escape(opt.body.into())
             );
         }
 
