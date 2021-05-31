@@ -1,7 +1,7 @@
 [package]
 name = "pn-sign"
 description = "Utility for signing PubNub API requests"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["Peter Nehrer <pnehrer@eclipticalsoftware.com>"]
 edition = "2018"
 license = "MIT"
@@ -9,21 +9,26 @@ repository = "https://github.com/pnehrer/pn-sign"
 
 [dependencies]
 anyhow = "1.0"
-base64 = "0.11"
-bytes = "0.5"
+base64 = "0.13"
+bytes = "1.0"
 chrono = "0.4"
 headers = "0.3"
-hmac = "0.7"
+hmac = "0.11"
 log = "0.4"
 percent-encoding = "2.1"
 pretty_env_logger = "0.4"
-sha2 = "0.8"
+sha2 = "0.9"
+shell-escape = "0.1"
 structopt = "0.3"
 thiserror = "1.0"
-url = "2.1"
+url = "2.2"
 
 [build-dependencies]
-built = { version = "0.4", features = ["chrono", "git2"] }
+built = { version = "0.5", features = ["chrono", "git2"] }
+
+[dev-dependencies]
+assert_cmd = "1.0"
+predicates = "1.0"
 
 [features]
 default = ["log-level-info"]

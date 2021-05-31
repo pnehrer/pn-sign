@@ -2,6 +2,7 @@
 use hmac::{
     Hmac,
     Mac,
+    NewMac,
 };
 
 use log::*;
@@ -56,13 +57,13 @@ pub(crate) fn sign(
     input: impl AsRef<[u8]>,
     sec_key: impl AsRef<str>,
 ) -> Result<impl AsRef<[u8]>, CryptoError> {
-    let mut mac = HmacSha256::new_varkey(sec_key.as_ref().as_bytes()).map_err(|err| {
+    let mut mac = HmacSha256::new_from_slice(sec_key.as_ref().as_bytes()).map_err(|err| {
         debug!("Error initializing HMAC: {}", err);
         CryptoError::SecretKey
     })?;
 
-    mac.input(input.as_ref());
-    let code = mac.result().code();
+    mac.update(input.as_ref());
+    let code = mac.finalize().into_bytes();
     Ok(code)
 }
 
