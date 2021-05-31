@@ -72,7 +72,7 @@ fn main() -> anyhow::Result<()> {
 
     let sig = if opt.v2 {
         sign_request_v2(
-            opt.method,
+            &opt.method,
             opt.pub_key,
             url.path(),
             url.query_pairs(),
@@ -92,6 +92,11 @@ fn main() -> anyhow::Result<()> {
     if opt.curl {
         url.query_pairs_mut().append_pair("signature", &sig);
         let mut curl = escape(url.to_string().into()).to_string();
+        let default_method = if opt.body.is_empty() { "GET" } else { "POST" };
+        if opt.method != default_method {
+            curl.push_str(&format!(" -X {}", opt.method));
+        }
+
         if !opt.body.is_empty() {
             curl = format!(
                 "{} -H '{}: {}' -d {}",
